@@ -3,6 +3,8 @@ from pydantic import BaseModel, Field
 from database import get_all_tasks, insert_task, mark_task_completed, init_db
 from contextlib import asynccontextmanager
 
+APP_VERSION = "0.1.0"
+
 class Task(BaseModel):
     title: str = Field(min_length=1, max_length=200)
     description: str = Field(min_length=1, max_length=2000)
@@ -22,6 +24,10 @@ async def read_root():
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+@app.get("/version")
+def version():
+    return {"version": APP_VERSION}
 
 @app.get("/about")
 def about():

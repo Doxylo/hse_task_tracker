@@ -1,7 +1,12 @@
 import sqlite3
+import os
 from pathlib import Path
 
-DB_PATH = Path(__file__).parent / "data" / "tasks.db"
+BASE_DIR = Path(__file__).resolve().parent
+DB_PATH = Path(os.environ.get("DATABASE_PATH", "data/tasks.db"))
+
+if not DB_PATH.is_absolute():
+    DB_PATH = BASE_DIR / DB_PATH
 
 def init_db():
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
